@@ -3,11 +3,15 @@ clear;
 close all;
 
 I = imread('trees.tif');
+figure(11);
+imshow(I);  title("Original Image");
+
 figure(1);
-subplot(2,2,1), imshow(edge(I,'sobel'));    title("sobel operator");
-subplot(2,2,2), imshow(edge(I,'roberts'));  title("roberts operator");
-subplot(2,2,3), imshow(edge(I,'prewitt'));  title("prewitt operator");
-subplot(2,2,4), imshow(edge(I,'Log'));      title("Log operator");
+tiledlayout(2,2,'TileSpacing','compact');
+nexttile, imshow(edge(I,'sobel'));    title("sobel operator");
+nexttile, imshow(edge(I,'roberts'));  title("roberts operator");
+nexttile, imshow(edge(I,'prewitt'));  title("prewitt operator");
+nexttile, imshow(edge(I,'Log'));      title("Log operator");
 %%
 % I = imread('test.png');
 I=im2double(I);
@@ -21,11 +25,15 @@ grad_pos_45 = imfilter(I, kernel_pos_45, 'replicate');
 grad_diag = abs(grad_neg_45) + abs(grad_pos_45);
 
 figure(2);
-subplot(1,3,1);     imshow(imbinarize(grad_neg_45));    title("Edges in an image inclined at - 45 degree");
-subplot(1,3,2);     imshow(imbinarize(grad_pos_45));    title("Edges in an image inclined at + 45 degree")
+subplot(1,3,1);     imshow(bwskel(imbinarize(grad_neg_45)));    title("Edges in an image inclined at - 45 degree");
+subplot(1,3,2);     imshow(bwskel(imbinarize(grad_pos_45)));    title("Edges in an image inclined at + 45 degree")
 subplot(1,3,3);     
 % imshow(grad_diag >= thresholdVal);      
-imshow(imbinarize(grad_diag));    
+imshow(bwskel(imbinarize(grad_diag)));    
 title("Edges in an image inclined at -/+ 45 degree")
+
+figure();
+imshow(bwskel(imbinarize(grad_diag)));    
+ 
 
 % imshow(edge_neg_45);
